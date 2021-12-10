@@ -9,7 +9,7 @@ type Params = { userId: string };
 const UserPage = ({ match }: RouteComponentProps<Params>) => {
   const { userId } = match.params;
 
-  const user = useTypedSelector((state) => selectUserById(state, userId))!;
+  const user = useTypedSelector(selectUserById(userId))!;
   const postsForUser = useTypedSelector((state) => selectPostsByUser(state, userId));
 
   const postTitles = postsForUser.map((post) => (

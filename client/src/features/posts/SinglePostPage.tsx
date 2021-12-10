@@ -9,7 +9,7 @@ type Params = { postId: string };
 
 export const SinglePostPage = ({ match }: RouteComponentProps<Params>) => {
   const { postId } = match.params;
-  const post = useTypedSelector((state) => selectPostById(state, postId));
+  const post = useTypedSelector(selectPostById(postId));
 
   return post ? (
     <section>

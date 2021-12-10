@@ -8,7 +8,7 @@ type TParams = { postId: string };
 export const EditPostForm = ({ match }: RouteComponentProps<TParams>) => {
   const { postId } = match.params;
 
-  const post = useTypedSelector((state) => selectPostById(state, postId));
+  const post = useTypedSelector(selectPostById(postId));
 
   const [title, setTitle] = useState(post?.title ?? '');
   const [content, setContent] = useState(post?.content ?? '');

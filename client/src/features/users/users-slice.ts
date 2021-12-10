@@ -1,4 +1,4 @@
-import { createAsyncThunk, createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice, EntityId, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/state/store';
 import { doGet, usersUrl } from '../../app/server-api';
 import { User } from '../../data-transfer';
@@ -40,14 +40,15 @@ export const { setUsers } = usersSlice.actions;
 
 // Selectors
 
-export const { selectAll: selectAllUsers, selectById: selectUserById } =
-  entityAdapter.getSelectors<RootState>((state) => state.users);
+const entitySelectors = entityAdapter.getSelectors<RootState>((state: RootState) => state.users);
+export const { selectAll: selectAllUsers } = entitySelectors;
+export const selectUserById = (id: EntityId) => (state: RootState) => entitySelectors.selectById(state, id);
 
 export const selectCurrentUserId = (state: RootState) => state.users.currentUserId;
 export function selectCurrentUser(state: RootState): User | null
 {
   const currentUserId = state.users.currentUserId;
-  return (currentUserId && selectUserById(state, currentUserId)) || null;
+  return (currentUserId && selectUserById(currentUserId)(state)) || null;
 }
 
 // Reducer

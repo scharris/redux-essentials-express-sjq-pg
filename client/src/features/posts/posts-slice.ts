@@ -3,6 +3,7 @@ import {
   createEntityAdapter,
   createSelector,
   createSlice,
+  EntityId,
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { RootState } from '../../app/state/store';
@@ -93,11 +94,9 @@ export const { setPosts } = postSlice.actions;
 
 // Selectors
 
-export const {
-  selectAll: selectAllPosts,
-  selectById: selectPostById,
-  selectIds: selectPostIds,
-} = entityAdapter.getSelectors<any>((state: RootState) => state.posts);
+const entitySelectors = entityAdapter.getSelectors<any>((state: RootState) => state.posts);
+export const { selectAll: selectAllPosts, selectIds: selectPostIds } = entitySelectors;
+export const selectPostById = (id: EntityId) => (state: RootState) => entitySelectors.selectById(state, id);
 
 // memoizing selector
 // https://github.com/reduxjs/reselect#createselectorinputselectors--inputselectors-resultfunc-selectoroptions

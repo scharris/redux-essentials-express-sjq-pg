@@ -10,7 +10,7 @@ import { EntityId } from '@reduxjs/toolkit';
 type PostExcerptProps = { postId: EntityId };
 
 const PostExcerpt = ({ postId }: PostExcerptProps) => {
-  const post = useTypedSelector((state) => selectPostById(state, postId));
+  const post = useTypedSelector(selectPostById(postId));
 
   return post ? (
     <article className="post-excerpt" key={post.id}>

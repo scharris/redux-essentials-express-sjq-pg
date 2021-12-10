@@ -6,7 +6,7 @@ import { selectUserById } from '../users/users-slice';
 type PostAuthorProps = { userId: EntityId };
 
 const PostAuthor = ({ userId }: PostAuthorProps) => {
-  const author = useTypedSelector((state) => selectUserById(state, userId));
+  const author = useTypedSelector(selectUserById(userId));
   return <span>by {author ? author.name : 'Unknown author'}</span>;
 };
 
