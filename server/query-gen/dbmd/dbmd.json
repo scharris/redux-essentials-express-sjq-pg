@@ -1,0 +1,376 @@
+{
+    "dbmsName": "PostgreSQL",
+    "dbmsVersion": "13.5",
+    "foreignKeys": [
+        {
+            "constraintName": "comment_post_id_fkey",
+            "foreignKeyComponents": [
+                {
+                    "foreignKeyFieldName": "post_id",
+                    "primaryKeyFieldName": "id"
+                }
+            ],
+            "foreignKeyRelationId": {
+                "name": "comment",
+                "schema": "reduxblog"
+            },
+            "primaryKeyRelationId": {
+                "name": "post",
+                "schema": "reduxblog"
+            }
+        },
+        {
+            "constraintName": "comment_user_id_fkey",
+            "foreignKeyComponents": [
+                {
+                    "foreignKeyFieldName": "user_id",
+                    "primaryKeyFieldName": "id"
+                }
+            ],
+            "foreignKeyRelationId": {
+                "name": "comment",
+                "schema": "reduxblog"
+            },
+            "primaryKeyRelationId": {
+                "name": "user",
+                "schema": "reduxblog"
+            }
+        },
+        {
+            "constraintName": "notification_user_id_fkey",
+            "foreignKeyComponents": [
+                {
+                    "foreignKeyFieldName": "user_id",
+                    "primaryKeyFieldName": "id"
+                }
+            ],
+            "foreignKeyRelationId": {
+                "name": "notification",
+                "schema": "reduxblog"
+            },
+            "primaryKeyRelationId": {
+                "name": "user",
+                "schema": "reduxblog"
+            }
+        },
+        {
+            "constraintName": "post_user_id_fkey",
+            "foreignKeyComponents": [
+                {
+                    "foreignKeyFieldName": "user_id",
+                    "primaryKeyFieldName": "id"
+                }
+            ],
+            "foreignKeyRelationId": {
+                "name": "post",
+                "schema": "reduxblog"
+            },
+            "primaryKeyRelationId": {
+                "name": "user",
+                "schema": "reduxblog"
+            }
+        },
+        {
+            "constraintName": "reaction_post_id_fkey",
+            "foreignKeyComponents": [
+                {
+                    "foreignKeyFieldName": "post_id",
+                    "primaryKeyFieldName": "id"
+                }
+            ],
+            "foreignKeyRelationId": {
+                "name": "reaction",
+                "schema": "reduxblog"
+            },
+            "primaryKeyRelationId": {
+                "name": "post",
+                "schema": "reduxblog"
+            }
+        },
+        {
+            "constraintName": "reaction_user_id_fkey",
+            "foreignKeyComponents": [
+                {
+                    "foreignKeyFieldName": "user_id",
+                    "primaryKeyFieldName": "id"
+                }
+            ],
+            "foreignKeyRelationId": {
+                "name": "reaction",
+                "schema": "reduxblog"
+            },
+            "primaryKeyRelationId": {
+                "name": "user",
+                "schema": "reduxblog"
+            }
+        }
+    ],
+    "caseSensitivity": "INSENSITIVE_STORED_LOWER",
+    "relationMetadatas": [
+        {
+            "fields": [
+                {
+                    "name": "id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 1
+                },
+                {
+                    "name": "username",
+                    "length": 30,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "firstname",
+                    "length": 50,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "lastname",
+                    "length": 50,
+                    "nullable": true,
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                }
+            ],
+            "relationId": {
+                "name": "user",
+                "schema": "reduxblog"
+            },
+            "relationType": "Table"
+        },
+        {
+            "fields": [
+                {
+                    "name": "id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 1
+                },
+                {
+                    "name": "title",
+                    "length": 200,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "content",
+                    "length": null,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "text",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "user_id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "created",
+                    "length": null,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "timestamptz",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                }
+            ],
+            "relationId": {
+                "name": "post",
+                "schema": "reduxblog"
+            },
+            "relationType": "Table"
+        },
+        {
+            "fields": [
+                {
+                    "name": "id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 1
+                },
+                {
+                    "name": "content",
+                    "length": null,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "text",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "post_id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "user_id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "created",
+                    "length": null,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "timestamptz",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                }
+            ],
+            "relationId": {
+                "name": "comment",
+                "schema": "reduxblog"
+            },
+            "relationType": "Table"
+        },
+        {
+            "fields": [
+                {
+                    "name": "id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 1
+                },
+                {
+                    "name": "user_id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "message",
+                    "length": null,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "text",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "created",
+                    "length": null,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "timestamptz",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "read",
+                    "length": null,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "bool",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                }
+            ],
+            "relationId": {
+                "name": "notification",
+                "schema": "reduxblog"
+            },
+            "relationType": "Table"
+        },
+        {
+            "fields": [
+                {
+                    "name": "post_id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 1
+                },
+                {
+                    "name": "reaction_type",
+                    "length": 20,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": 2
+                },
+                {
+                    "name": "user_id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 3
+                }
+            ],
+            "relationId": {
+                "name": "reaction",
+                "schema": "reduxblog"
+            },
+            "relationType": "Table"
+        }
+    ]
+}

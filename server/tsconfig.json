@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read general information about this file. */
+    /* See https://stackoverflow.com/a/59787575  for target/lib combinations supported by various node.js releases. */
+    "target": "es2020",
+    "lib": ["es2020"],
+    "module": "es2020",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": { "*": [ "src/*" ] }
+  },
+  "exclude": [
+    "./query-gen",
+  ]
+}

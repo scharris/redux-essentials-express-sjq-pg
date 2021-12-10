@@ -1,0 +1,10 @@
+/*
+!/client/src
+!/client/public/
+!/client/package*.json
+!/client/tsconfig.json
+!/server/src
+!/server/webpack
+!/server/package*.json
+!/server/tsconfig.json
+!/db

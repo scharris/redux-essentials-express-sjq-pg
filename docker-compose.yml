@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  reduxblog-db:
+    build: ./db
+    shm_size: 256MB
+    container_name: reduxblog-db-cont
+    environment:
+      - POSTGRES_DB=reduxblog
+      - POSTGRES_USER=reduxblog
+      - POSTGRES_PASSWORD=reduxblog
+    volumes:
+      - reduxblog_data:/var/lib/postgresql/data
+  reduxblog-app:
+    build: .
+    container_name: reduxblog-app-cont
+    environment:
+      - DB_DATABASE=reduxblog
+      - DB_USER=reduxblog
+      - DB_PASSWORD=reduxblog
+      - DB_HOST=reduxblog-db
+      - DB_PORT=5433
+      - DB_USE_SSL=false
+      - DB_POOL_MAX_SIZE=4
+      - DB_POOL_MIN_SIZE=1
+    ports:
+     - 3000:3000
+    depends_on:
+      - reduxblog-db
+volumes:
+  reduxblog_data:

@@ -1,0 +1,4 @@
+jdbc.driverClassName=org.postgresql.Driver
+jdbc.url=jdbc:postgresql://localhost:5433/reduxblog
+jdbc.username=reduxblog
+jdbc.password=reduxblog
