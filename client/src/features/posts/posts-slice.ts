@@ -93,19 +93,21 @@ export const { setPosts } = postSlice.actions;
 // Selectors
 
 const entitySelectors = entityAdapter.getSelectors<any>((state: RootState) => state.posts);
-export const { selectAll: selectAllPosts, selectIds: selectPostIds } = entitySelectors;
-export const selectPostById = (id: EntityId) => (state: RootState) => entitySelectors.selectById(state, id);
 
-// memoizing selector, see https://github.com/reduxjs/reselect#createselectorinputselectors--inputselectors-resultfunc-selectoroptions
-const memoizedSelectPostsByUser: (state: RootState, userId: EntityId) => Post[] =
+export const { selectAll: selectAllPosts, selectIds: selectPostIds } = entitySelectors;
+
+export const selectPostById =
+  (id: EntityId) => (state: RootState) => entitySelectors.selectById(state, id);
+
+const memoizedPostsByUser: (state: RootState, userId: EntityId) => Post[] =
   createSelector(
     [selectAllPosts, (state: RootState, userId: EntityId) => userId], // input selectors for memoization
     (posts, userId) => posts.filter((post) => post.user === userId) // result selector
   );
-export function selectPostsByUser(userId: EntityId): (state: RootState) => Post[]
-{
-  return state => memoizedSelectPostsByUser(state, userId);
-}
+export const selectPostsByUser =
+  (userId: EntityId) => (state: RootState) => memoizedPostsByUser(state, userId);
 
-export const selectPostsLoadingStatus = (state: RootState) => state.posts.status;
-export const selectPostsLoadingError = (state: RootState) => state.posts.error;
+export const selectPostsLoadingStatus =
+  (state: RootState) => state.posts.status;
+export const selectPostsLoadingError =
+  (state: RootState) => state.posts.error;
