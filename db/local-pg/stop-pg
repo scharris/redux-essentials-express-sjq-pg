@@ -1,0 +1,4 @@
+SCRIPT_DIR=$(dirname ${BASH_SOURCE:-$0})
+
+pg_ctl -D "$SCRIPT_DIR/pg-data" stop
+

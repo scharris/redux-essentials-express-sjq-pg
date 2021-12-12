@@ -1,9 +1,9 @@
 # Running Postgres via Docker
 If you can run Docker on your local machine, then the easiest way to get a running database with test
-data is to run the `init-pg` script for PowerShell or a unix shell:
+data is to run the `init-pg-docker` script for PowerShell or a unix shell:
 
 ```
-db/init-pg
+db/init-pg-docker
 ```
 
 This will create a container running Postgres database as a "daemon" or background process that runs
@@ -36,27 +36,39 @@ To stop and remove the container:
 docker rm -vf reduxblog-pg
 ```
 
-# Manual setup of Postgres database
-This set of instructions assumes that the Postgresql database client
-command line program, `psql`, is available to run on your local machine,
-and that you have access to a server instance (which also may be on your
-local machine) with administrative login as user postgres.
+# Running Postgres locally
 
-Note: If docker is available to to on your local machine, it may be
-easier to run the database via docker by calling the `init-pg`
-script, which has no prerequisits other than docker itself.
+Scripts have been provided to easily run Postgres locally, so long as Postgres executables are
+available on your PATH environment variable, or else you have Nix installed to run Nix shell
+which can easily provide these.
 
-## Create reduxblog user and database
 ```
-# psql -U postgres
-create user reduxblog with password 'reduxblog';
-create database reduxblog owner reduxblog;
+cd db
+nix-shell # or otherwise make sure Postgres executables (initdb, pg_ctl, psql etc) are on your PATH
 ```
 
-## Create and populate reduxblog schema
+Then in Nix's bash shell started above or in any shell with Postgres executables on your PATH:
 ```
-# psql -U reduxblog
-\i db/init/create-schema.sql
-\i db/init/create-schema-objects.sql
-\i db/init/create-test-data.sql
+./init-pg-local.sh
+```
+
+You should see a page or so of output which ends with something like:
+```
+ALTER ROLE
+CREATE TABLE
+CREATE TABLE
+...
+INSERT 0 3
+INSERT 0 5
+INSERT 0 3
+INSERT 0 3
+INSERT 0 6
+```
+
+Try accessing the application database via:
+
+```console
+psql -U reduxblog
+# select * from post;
+# \q
 ```

@@ -1,0 +1,7 @@
+SCRIPT_DIR=$(dirname ${BASH_SOURCE:-$0})
+
+
+echo starting PostgeSQL server on port $PGPORT.
+
+pg_ctl start -D "$SCRIPT_DIR/pg-data" --log "$SCRIPT_DIR/log"
+
