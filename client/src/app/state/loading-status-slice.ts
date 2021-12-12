@@ -32,7 +32,7 @@ export const { loadingInProgress, loadingSucceeded, loadingFailed } = loadingSta
 
 // Selectors
 
-export function getLoadingStatus(state: RootState): LoadingStatusState
+export function selectLoadingStatusState(state: RootState): LoadingStatusState
 {
   return state.loadingStatus;
 }
