@@ -14,13 +14,13 @@ SCRIPT_DIR=$(dirname ${BASH_SOURCE:-$0})
 
 echo Initializing a new Postgres server instance with database \"$DBNAME\" on port $PGPORT.
 
-mkdir pg-data
+mkdir "$SCRIPT_DIR"/pg-data
 
 # Initialize the database cluster (no databases yet) with superuser "postgres".
 initdb -D "$SCRIPT_DIR/pg-data" -U postgres
 
 # Start the cluster so we can create databases, users etc.
-./start-pg
+"$SCRIPT_DIR"/start-pg
 
 # Create the application user.
 createuser -U postgres -p "$PGPORT" --echo "$DBNAME"
@@ -34,4 +34,4 @@ createdb -U postgres -p "$PGPORT" --owner "$DBNAME" "$DBNAME"
 psql -U "$DBNAME" --dbname "$DBNAME" -p "$PGPORT" --echo-all \
   -c "create schema $DBNAME authorization $DBNAME;" \
   -c "alter role $DBNAME set search_path to $DBNAME;"
- 
+
