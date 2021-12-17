@@ -18,9 +18,9 @@
       "prebuild-server-prod": "npm run gen-sources",
       "build-server-prod": "webpack --config webpack/prod.config.js",
       "build": "npm run build-client-prod && npm run build-server-prod",
-      "start": "node dist/server dist ../db/conn-pool.env dev.env",
-      "start-client-dev": "cd ../client && npm run start",
-      "start-server-dev": "npm run build-server-dev && npm run start"
+      "start-dist": "node dist/server dist ../db/conn-pool.env dev.env",
+      "start-server-dev": "npm run build-server-dev && npm run start-dist",
+      "start": "npm run start-server-dev"
    },
    "keywords": [],
    "author": "",

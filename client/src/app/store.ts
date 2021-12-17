@@ -1,17 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import postsReducer from '../../features/posts/posts-slice';
-import usersReducer from '../../features/users/users-slice';
-import notificationsReducer from '../../features/notifications/notifications-slice';
-import loadingStatusReducer from './loading-status-slice';
+import { api } from './api';
 
 const store = configureStore({
   reducer: {
-    posts: postsReducer,
-    users: usersReducer,
-    notifications: notificationsReducer,
-    loadingStatus: loadingStatusReducer,
+    [api.reducerPath]: api.reducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(api.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

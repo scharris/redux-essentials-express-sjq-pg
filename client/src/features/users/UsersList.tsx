@@ -1,9 +1,9 @@
-import React from 'react';
-import { selectAllUsers } from './users-slice';
 import { Link } from 'react-router-dom';
-import { useTypedSelector } from '../../app/state/store';
+import { useTypedSelector } from '../../app/store';
+import { selectAllUsers } from './api';
 
-const UsersList = () => {
+export default function UsersList(): JSX.Element
+{
   const users = useTypedSelector(selectAllUsers);
 
   const renderedUsers = users.map((user) => (
@@ -15,10 +15,7 @@ const UsersList = () => {
   return (
     <section>
       <h2>Users</h2>
-
       <ul>{renderedUsers}</ul>
     </section>
   );
 };
-
-export default UsersList;

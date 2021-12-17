@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { Notification } from '../../../../client/src/data-transfer';
 import * as NotificationsService from "./notifications-service";
 
 export const router = express.Router();
@@ -8,9 +7,9 @@ router.get("/", async (req: Request, res: Response) =>
 {
    try
    {
-      const notfns: Notification[] = await NotificationsService.getNotifications();
+      const notifications = await NotificationsService.getNotifications();
 
-      res.status(200).send(notfns);
+      res.status(200).send(notifications);
    }
    catch (e: any)
    {

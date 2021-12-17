@@ -45,30 +45,6 @@ router.get("/:id", async (req: Request, res: Response) =>
    }
 });
 
-router.post("/:id/reaction", async (req: Request, res: Response) =>
-{
-   const id = parseInt(req.params.id, 10);
-
-   if ( isNaN(id) )
-   {
-      res.status(400).send({message: 'invalid post id'});
-      return;
-   }
-
-   try
-   {
-      const reactionData: NewReactionData = req.body;
-
-      const added = await PostsService.addReaction(reactionData);
-
-      res.status(200).send({ added });
-   }
-   catch (e: any)
-   {
-      res.status(500)
-         .send(e.message  || `unexpected error occurred in GET of post with id ${id}`);
-   }
-});
 
 router.post("/", async (req: Request, res: Response) =>
 {
@@ -87,13 +63,12 @@ router.post("/", async (req: Request, res: Response) =>
    }
 });
 
-router.put("/:id", async (req: Request, res: Response) =>
+router.patch("/:id", async (req: Request, res: Response) =>
 {
    try
    {
-      const id = parseInt(req.params.id, 10);
-
-      if ( isNaN(id) )
+      const postId = parseInt(req.params.id, 10);
+      if ( isNaN(postId) )
       {
          res.status(400).send({message: 'invalid post id'});
          return;
@@ -101,7 +76,7 @@ router.put("/:id", async (req: Request, res: Response) =>
 
       const postData: UpdatedPostData = req.body;
 
-      await PostsService.updatePost(id, postData);
+      await PostsService.updatePost(postId, postData);
 
       res.sendStatus(200);
    }
@@ -109,6 +84,30 @@ router.put("/:id", async (req: Request, res: Response) =>
    {
       res.status(500)
          .send(e.message || `unexpected error occurred in PUT of post data: ${req.body}`);
+   }
+});
+
+router.put("/:id/reaction", async (req: Request, res: Response) =>
+{
+   const postId = parseInt(req.params.id, 10);
+   if ( isNaN(postId) )
+   {
+      res.status(400).send({message: 'invalid post id'});
+      return;
+   }
+
+   try
+   {
+      const reactionData: NewReactionData = req.body;
+
+      const added = await PostsService.addReaction(postId, reactionData);
+
+      res.status(200).send({ added });
+   }
+   catch (e: any)
+   {
+      res.status(500)
+         .send(e.message  || `unexpected error occurred in GET of post with id ${postId}`);
    }
 });
 

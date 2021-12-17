@@ -1,30 +1,29 @@
-import React, { ChangeEventHandler, useState } from 'react';
-import { addNewPost } from './posts-slice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { selectCurrentUser } from '../users/users-slice';
-import { useAppDispatch, useTypedSelector } from '../../app/state/store';
+import { ChangeEventHandler, useState } from 'react';
+import { selectCurrentUser } from '../users/api';
+import { useTypedSelector } from '../../app/store';
+import { useAddNewPostMutation } from './api';
 
-export const AddPostForm = () => {
+export default function AddPostForm(): JSX.Element
+{
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [addRequestStatus, setAddRequestStatus] = useState('idle');
 
-  const dispatch = useAppDispatch();
+  const [addNewPost, { isLoading }] = useAddNewPostMutation();
 
   const user = useTypedSelector(selectCurrentUser);
 
   const onTitleChanged: ChangeEventHandler<HTMLInputElement> = (e) => setTitle(e.currentTarget.value);
   const onContentChanged: ChangeEventHandler<HTMLTextAreaElement> = (e) => setContent(e.target.value);
 
-  const canSave = [title, content].every(Boolean) && addRequestStatus === 'idle' && user;
+  const canSave = user && !isLoading && [title, content].every(Boolean);
 
   const onSavePostClicked = async () => {
-    if (canSave) {
+    if (canSave)
+    {
       try
       {
-        setAddRequestStatus('pending');
-        const resultAction = await dispatch(addNewPost({ title, content, user: user.id }));
-        unwrapResult(resultAction);
+        const result = await addNewPost({ title, content, user: user.id }).unwrap();
+        console.info(`Created post with id ${result.id}.`);
         setTitle('');
         setContent('');
       }
@@ -32,14 +31,11 @@ export const AddPostForm = () => {
       {
         console.error('Failed to save the post: ', err);
       }
-      finally
-      {
-        setAddRequestStatus('idle');
-      }
     }
   };
 
-  return (
+  if (isLoading) return <span>Loading...</span>
+  else return (
     <section>
       <h2>Add a New Post</h2>
       <form>

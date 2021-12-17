@@ -1,13 +1,11 @@
-import React from 'react';
 import { EntityId } from '@reduxjs/toolkit';
-import { useTypedSelector } from '../../app/state/store';
-import { selectUserById } from '../users/users-slice';
+import { useTypedSelector } from '../../app/store';
+import { selectUserById } from '../users/api';
 
-type PostAuthorProps = { userId: EntityId };
+type Props = { userId: EntityId };
 
-const PostAuthor = ({ userId }: PostAuthorProps) => {
+export default function PostAuthor({ userId }: Props)
+{
   const author = useTypedSelector(selectUserById(userId));
   return <span>by {author ? author.name : 'Unknown author'}</span>;
 };
-
-export default PostAuthor;

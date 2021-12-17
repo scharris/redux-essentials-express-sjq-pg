@@ -1,17 +1,13 @@
-import React from 'react';
 import PostAuthor from './PostAuthor';
 import TimeAgo from './TimeAgo';
 import ReactionButtons from './ReactionButtons';
 import { Link } from 'react-router-dom';
-import { selectPostById } from './posts-slice';
-import { useTypedSelector } from '../../app/state/store';
-import { EntityId } from '@reduxjs/toolkit';
+import { Post } from '../../data-transfer';
 
-type PostExcerptProps = { postId: EntityId };
+type Props = { post: Post };
 
-const PostExcerpt = ({ postId }: PostExcerptProps) => {
-  const post = useTypedSelector(selectPostById(postId));
-
+export default function PostExcerpt({ post }: Props)
+{
   return post ? (
     <article className="post-excerpt" key={post.id}>
       <h3>{post.title}</h3>
@@ -32,5 +28,3 @@ const PostExcerpt = ({ postId }: PostExcerptProps) => {
     <></>
   );
 };
-
-export default PostExcerpt;

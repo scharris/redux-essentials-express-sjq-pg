@@ -1,4 +1,3 @@
-import React from 'react';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
 type TimeAgoProps = { timestamp: string };
