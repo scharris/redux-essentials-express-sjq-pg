@@ -1,5 +1,6 @@
+import { User } from './user';
 import { Comment } from './comment';
-import { Reactions } from './reaction';
+import { Reactions } from './reactions';
 
 export interface Post
 {
@@ -10,6 +11,12 @@ export interface Post
    date: string;
    comments: Comment[];
    reactions: Reactions;
+}
+
+export interface PostsWithContext
+{
+  posts: Post[],
+  users: User[],
 }
 
 export interface NewPostData

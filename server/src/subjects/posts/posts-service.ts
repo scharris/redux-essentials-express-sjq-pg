@@ -73,7 +73,7 @@ export async function updatePost(postId: number, postData: UpdatedPostData): Pro
       throw new Error('Expected one row to be modified when creating Post.');
 }
 
-export async function addReaction(newReactionData: NewReactionData): Promise<boolean>
+export async function addReaction(postId: number, newReactionData: NewReactionData): Promise<boolean>
 {
    const reaction = verifiedTableName(schema, 'reaction');
    const {post_id, user_id, reaction_type} = verifiedFieldNames(schema.reaction);
@@ -81,7 +81,7 @@ export async function addReaction(newReactionData: NewReactionData): Promise<boo
    const res = await execSql(
       `insert into ${reaction}(${post_id}, ${user_id}, ${reaction_type}) values($1, $2, $3) ` +
       'on conflict do nothing',
-      [newReactionData.postId, newReactionData.userId, newReactionData.reaction]
+      [postId, newReactionData.userId, newReactionData.reaction]
    );
 
    if ( res.rowCount > 1 )

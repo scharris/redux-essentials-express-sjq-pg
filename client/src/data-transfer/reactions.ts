@@ -9,7 +9,6 @@ export interface Reactions
 
 export interface NewReactionData
 {
-   postId: string,
    userId: string,
    reaction: ReactionType
 }

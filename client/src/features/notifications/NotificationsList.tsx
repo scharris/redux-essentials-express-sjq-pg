@@ -1,46 +1,36 @@
-import React, { useEffect } from 'react';
-import { formatDistanceToNow, parseISO } from 'date-fns';
-import { selectAllUsers } from '../users/users-slice';
-import { allNotificationsRead, selectAllNotifications } from './notifications-slice';
-import classnames from 'classnames';
-import { useAppDispatch, useTypedSelector } from '../../app/state/store';
+import { getSortedNotifications, useGetNotificationsQuery } from './api';
+import { useTypedSelector } from '../../app/store';
+import Notification from './Notification';
+import { selectUsersData } from '../../app/api';
 
-export const NotificationsList = () => {
-  const dispatch = useAppDispatch();
-  const notifications = useTypedSelector(selectAllNotifications);
-  const users = useTypedSelector(selectAllUsers);
+export default function NotificationsList(): JSX.Element
+{
+  const users = useTypedSelector(selectUsersData);
 
-  useEffect(() => {
-    dispatch(allNotificationsRead());
-  });
-
-  const renderedNotifications = notifications.map((notification) => {
-    const date = parseISO(notification.date);
-    const timeAgo = formatDistanceToNow(date);
-    const user = users.find((user) => user.id === notification.user) || {
-      name: 'Unknown User',
-    };
-
-    const notificationClassname = classnames('notification', {
-      new: notification.isNew,
+  const { notifs, isFetching, isSuccess, isError, error } =
+    useGetNotificationsQuery(undefined, {
+      selectFromResult: res => ({
+        notifs: (res.data ? getSortedNotifications(res.data) : []),
+        ...res
+      })
     });
 
-    return (
-      <div key={notification.id} className={notificationClassname}>
-        <div>
-          <b>{user.name}</b> {notification.message}
-        </div>
-        <div title={notification.date}>
-          <i>{timeAgo} ago</i>
-        </div>
-      </div>
-    );
-  });
+    const content =
+      isFetching ?
+        <span>Loading...</span> :
+      isSuccess ?
+        notifs.map(n =>
+          <Notification key={n.id} {...n} userName={users.entities[n.user]?.name} />
+        ) :
+      isError ?
+        error ? <div>{error.toString()}</div>
+              : <div>Unknown error</div>
+      : null;
 
   return (
     <section className="notificationsList">
       <h2>Notifications</h2>
-      {renderedNotifications}
+      {content}
     </section>
   );
 };

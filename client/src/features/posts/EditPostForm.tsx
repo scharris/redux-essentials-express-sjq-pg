@@ -1,19 +1,20 @@
-import React, { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
-import { useAppDispatch, useTypedSelector } from '../../app/state/store';
-import { selectPostById, updatePost } from './posts-slice';
+import { useTypedSelector } from '../../app/store';
+import { selectPostById, useUpdatePostMutation } from '../../app/api';
 
-type TParams = { postId: string };
+type Props = RouteComponentProps<{ postId: string }>;
 
-export const EditPostForm = ({ match }: RouteComponentProps<TParams>) => {
+export default function EditPostForm({ match }: Props): JSX.Element
+{
   const { postId } = match.params;
 
   const post = useTypedSelector(selectPostById(postId));
+  const [updatePost] = useUpdatePostMutation();
 
   const [title, setTitle] = useState(post?.title ?? '');
   const [content, setContent] = useState(post?.content ?? '');
 
-  const dispatch = useAppDispatch();
   const history = useHistory();
 
   const onTitleChanged: ChangeEventHandler<HTMLInputElement> = (e) => setTitle(e.target.value);
@@ -22,7 +23,7 @@ export const EditPostForm = ({ match }: RouteComponentProps<TParams>) => {
   const onSavePostClicked = () => {
     if (post && title && content)
     {
-      dispatch(updatePost({ ...post, title, content }));
+      updatePost({ postId, data: { title, content } });
       history.push(`/posts/${postId}`);
     }
   };
