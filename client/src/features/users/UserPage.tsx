@@ -1,7 +1,6 @@
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useTypedSelector } from '../../app/store';
-import { getSortedPosts, useGetPostsQuery } from '../posts/api';
-import { selectUserById } from './api';
+import { getSortedPosts, selectUserById, useGetPostsWithContextQuery } from '../../app/api';
 
 type Props = RouteComponentProps<{ userId: string }>;
 
@@ -10,9 +9,9 @@ export default function UserPage({ match }: Props): JSX.Element
   const { userId } = match.params;
 
   const user = useTypedSelector(selectUserById(userId));
-  const query = useGetPostsQuery(undefined, {
+  const query = useGetPostsWithContextQuery(undefined, {
     selectFromResult: res =>
-      res.data ? { posts: getSortedPosts(res.data).filter((p) => p.user === userId), ...res }
+      res.data ? { posts: getSortedPosts(res.data.postsData).filter((p) => p.user === userId), ...res }
                : { posts: [], ...res }
   });
 

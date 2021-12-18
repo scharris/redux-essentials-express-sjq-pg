@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 import App from './app/App';
 import './index.css';
 import store from './app/store';
-import { api as usersApi } from './features/users/api';
+import { api } from './app/api';
 
-store.dispatch(usersApi.endpoints.getUsers.initiate());
+store.dispatch(api.endpoints.getPostsWithContext.initiate());
 
 ReactDOM.render(
   <React.StrictMode>

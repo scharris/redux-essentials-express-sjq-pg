@@ -1,7 +1,6 @@
 import { Post, ReactionType } from '../../data-transfer';
 import { useTypedSelector } from '../../app/store';
-import { selectCurrentUser } from '../users/api';
-import { useAddPostReactionMutation } from './api';
+import { useAddPostReactionMutation, selectCurrentUser } from '../../app/api';
 
 const reactionEmoji = {
   thumbsUp: '👍',

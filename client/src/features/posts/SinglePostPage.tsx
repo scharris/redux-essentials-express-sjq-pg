@@ -1,5 +1,5 @@
 import { RouteComponentProps } from 'react-router-dom';
-import { useGetPostQuery } from './api';
+import { useGetPostQuery } from '../../app/api';
 import TimeAgo from './TimeAgo';
 import PostAuthor from './PostAuthor';
 

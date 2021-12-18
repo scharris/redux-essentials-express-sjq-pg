@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
+import { selectAllUsers } from '../../app/api';
 import { useTypedSelector } from '../../app/store';
-import { selectAllUsers } from './api';
 
 export default function UsersList(): JSX.Element
 {

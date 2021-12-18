@@ -1,7 +1,7 @@
 import { ChangeEventHandler, useState } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { useTypedSelector } from '../../app/store';
-import { selectPostById, useUpdatePostMutation } from './api';
+import { selectPostById, useUpdatePostMutation } from '../../app/api';
 
 type Props = RouteComponentProps<{ postId: string }>;
 

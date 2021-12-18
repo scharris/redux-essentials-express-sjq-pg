@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { useTypedSelector } from '../../app/store';
-import { selectUserById } from '../users/api';
+import { selectUserById } from '../../app/api';
 
 type Props = { userId: EntityId };
 

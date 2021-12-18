@@ -1,7 +1,6 @@
 import { ChangeEventHandler, useState } from 'react';
-import { selectCurrentUser } from '../users/api';
 import { useTypedSelector } from '../../app/store';
-import { useAddNewPostMutation } from './api';
+import { useAddNewPostMutation, selectCurrentUser } from '../../app/api';
 
 export default function AddPostForm(): JSX.Element
 {

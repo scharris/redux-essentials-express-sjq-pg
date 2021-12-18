@@ -1,7 +1,7 @@
-import { selectUsersData } from '../users/api';
 import { getSortedNotifications, useGetNotificationsQuery } from './api';
 import { useTypedSelector } from '../../app/store';
 import Notification from './Notification';
+import { selectUsersData } from '../../app/api';
 
 export default function NotificationsList(): JSX.Element
 {

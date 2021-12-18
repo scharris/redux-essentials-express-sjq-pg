@@ -1,12 +1,12 @@
-import { useGetPostsQuery, getSortedPosts } from './api';
+import { useGetPostsWithContextQuery, getSortedPosts } from '../../app/api';
 import PostExcerpt from './PostExcerpt';
 
 export default function PostsList(): JSX.Element
 {
   const { posts, isFetching, isSuccess, isError, error } =
-    useGetPostsQuery(undefined, {
+    useGetPostsWithContextQuery(undefined, {
       selectFromResult: res =>
-        res.data ? { posts: getSortedPosts(res.data), ...res }
+        res.data ? { posts: getSortedPosts(res.data.postsData), ...res }
                  : { posts: [], ...res }
     });
 
