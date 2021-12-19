@@ -1,10 +1,19 @@
 import express, { Request, Response } from "express";
+import { ZodError } from 'zod';
 import * as PostsService from "./posts-service";
-import { NewPostData, NewReactionData, Post, UpdatedPostData} from '../../../../client/src/data-transfer';
+import {
+   CreatePostData,
+   CreateReactionData,
+   CreateReactionDataSchema,
+   Post,
+   CreatePostDataSchema,
+   UpdatePostData,
+   UpdatePostDataSchema,
+} from '../../../../client/src/data-transfer';
 
 export const router = express.Router();
 
-router.get("/", async (req: Request, res: Response) =>
+router.get("/", async (_req: Request, res: Response) =>
 {
    try
    {
@@ -25,7 +34,7 @@ router.get("/:id", async (req: Request, res: Response) =>
 
    if ( isNaN(id) )
    {
-      res.status(400).send({message: 'invalid post id'});
+      res.status(400).send({ message: 'invalid post id' });
       return;
    }
 
@@ -50,16 +59,20 @@ router.post("/", async (req: Request, res: Response) =>
 {
    try
    {
-      const postData: NewPostData = req.body;
+      const newPostData: CreatePostData = CreatePostDataSchema.parse(req.body);
 
-      const createdPostData = await PostsService.createPost(postData);
+      const createdPostData = await PostsService.createPost(newPostData);
 
       res.status(201).send(createdPostData);
    }
    catch (e: any)
    {
-      res.status(500)
-         .send(e.message || `unexpected error occurred in creating new post from data: ${req.body}`);
+      if (e instanceof ZodError)
+         res.status(400)
+            .send('Request body is invalid.');
+      else
+         res.status(500)
+            .send(e.message || `unexpected error occurred in creating new post from data: ${req.body}`);
    }
 });
 
@@ -74,7 +87,7 @@ router.patch("/:id", async (req: Request, res: Response) =>
          return;
       }
 
-      const postData: UpdatedPostData = req.body;
+      const postData: UpdatePostData = UpdatePostDataSchema.parse(req.body);
 
       await PostsService.updatePost(postId, postData);
 
@@ -82,8 +95,12 @@ router.patch("/:id", async (req: Request, res: Response) =>
    }
    catch(e: any)
    {
-      res.status(500)
-         .send(e.message || `unexpected error occurred in PUT of post data: ${req.body}`);
+      if (e instanceof ZodError)
+         res.status(400)
+            .send('Request body is invalid.');
+      else
+         res.status(500)
+            .send(e.message || `unexpected error occurred in PUT of post data: ${req.body}`);
    }
 });
 
@@ -98,7 +115,7 @@ router.put("/:id/reaction", async (req: Request, res: Response) =>
 
    try
    {
-      const reactionData: NewReactionData = req.body;
+      const reactionData: CreateReactionData = CreateReactionDataSchema.parse(req.body);
 
       const added = await PostsService.addReaction(postId, reactionData);
 
@@ -106,8 +123,12 @@ router.put("/:id/reaction", async (req: Request, res: Response) =>
    }
    catch (e: any)
    {
-      res.status(500)
-         .send(e.message  || `unexpected error occurred in GET of post with id ${postId}`);
+      if (e instanceof ZodError)
+         res.status(400)
+            .send('Request body is invalid.');
+      else
+         res.status(500)
+            .send(e.message  || `unexpected error occurred in GET of post with id ${postId}`);
    }
 });
 

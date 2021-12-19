@@ -9,12 +9,12 @@ import {
 import { execSql } from '../../db/pool-executor';
 import {
    Post as DTOPost,
-   NewPostData,
+   CreatePostData,
    CreatedPostData,
-   UpdatedPostData,
+   UpdatePostData,
    Comment as DTOComment,
    Reactions as DTOReactions,
-   NewReactionData,
+   CreateReactionData,
 } from '../../../../client/src/data-transfer';
 
 export async function getPosts(): Promise<DTOPost[]>
@@ -36,7 +36,7 @@ export async function getPost(id: number): Promise<DTOPost | null>
    }
 }
 
-export async function createPost(newPostData: NewPostData): Promise<CreatedPostData>
+export async function createPost(newPostData: CreatePostData): Promise<CreatedPostData>
 {
    const now = new Date().toISOString();
 
@@ -59,7 +59,12 @@ export async function createPost(newPostData: NewPostData): Promise<CreatedPostD
    };
 }
 
-export async function updatePost(postId: number, postData: UpdatedPostData): Promise<void>
+export async function updatePost
+   (
+      postId: number,
+      postData: UpdatePostData
+   )
+   : Promise<void>
 {
    const post = verifiedTableName(schema, 'post');
    const {id, title, content} = verifiedFieldNames(schema.post);
@@ -73,7 +78,12 @@ export async function updatePost(postId: number, postData: UpdatedPostData): Pro
       throw new Error('Expected one row to be modified when creating Post.');
 }
 
-export async function addReaction(postId: number, newReactionData: NewReactionData): Promise<boolean>
+export async function addReaction
+   (
+      postId: number,
+      newReactionData: CreateReactionData
+   )
+   : Promise<boolean>
 {
    const reaction = verifiedTableName(schema, 'reaction');
    const {post_id, user_id, reaction_type} = verifiedFieldNames(schema.reaction);

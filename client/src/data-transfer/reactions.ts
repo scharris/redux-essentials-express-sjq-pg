@@ -1,18 +1,28 @@
-export interface Reactions
-{
-   thumbsUp: number;
-   hooray: number;
-   heart: number;
-   rocket: number;
-   eyes: number;
-}
+import { z } from "zod";
 
-export interface NewReactionData
-{
-   userId: string,
-   reaction: ReactionType
-}
+export const ReactionsSchema =
+  z.object({
+    thumbsUp: z.number(),
+    hooray: z.number(),
+    heart: z.number(),
+    rocket: z.number(),
+    eyes: z.number(),
+  })
+  .strict();
 
-export const noReactions = { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 };
+const ReactionTypeSchema = z.enum(['thumbsUp', 'hooray', 'heart', 'rocket', 'eyes']);
 
-export type ReactionType = keyof Reactions;
+export const CreateReactionDataSchema =
+  z.object({
+    userId: z.string(),
+    reaction: ReactionTypeSchema,
+  })
+  .strict();
+
+export const noReactions: Reactions = { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 };
+
+export type Reactions = z.infer<typeof ReactionsSchema>;
+
+export type ReactionType = z.infer<typeof ReactionTypeSchema>;
+
+export type CreateReactionData = z.infer<typeof CreateReactionDataSchema>;

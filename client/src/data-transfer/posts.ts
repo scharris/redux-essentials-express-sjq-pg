@@ -1,42 +1,58 @@
-import { User } from './user';
-import { Comment } from './comment';
-import { Reactions } from './reactions';
+import { z } from "zod";
+import { UserSchema } from './user';
+import { CommentSchema } from './comment';
+import { ReactionsSchema } from './reactions';
 
-export interface Post
-{
-   id: string;
-   title: string;
-   content: string;
-   user: string;
-   date: string;
-   comments: Comment[];
-   reactions: Reactions;
-}
+export const PostSchema =
+  z.object({
+    id: z.string(),
+    title: z.string(),
+    content: z.string(),
+    user: z.string(),
+    date: z.string(),
+    comments: z.array(CommentSchema),
+    reactions: ReactionsSchema,
+ })
+ .strict();
 
-export interface PostsWithContext
-{
-  posts: Post[],
-  users: User[],
-}
+export const PostsWithContextSchema =
+  z.object({
+    posts: z.array(PostSchema),
+    users: z.array(UserSchema),
+  })
+  .strict();
 
-export interface NewPostData
-{
-   title: string;
-   content: string;
-   user: string;
-}
+export const CreatePostDataSchema =
+  z.object({
+    title: z.string(),
+    content: z.string(),
+    user: z.string(),
+  })
+  .strict();
 
-export interface CreatedPostData
-{
-   id: string;
-   title: string;
-   content: string;
-   user: string;
-   date: string;
-}
+export const CreatedPostDataSchema =
+  z.object({
+    id: z.string(),
+    title: z.string(),
+    content: z.string(),
+    user: z.string(),
+    date: z.string(),
+  })
+  .strict();
 
-export interface UpdatedPostData
-{
-   title: string;
-   content: string;
-}
+export const UpdatePostDataSchema =
+  z.object({
+    title: z.string(),
+    content: z.string(),
+  })
+  .strict();
+
+export type Post = z.infer<typeof PostSchema>;
+
+export type PostsWithContext = z.infer<typeof PostsWithContextSchema>;
+
+export type CreatePostData = z.infer<typeof CreatePostDataSchema>;
+
+export type CreatedPostData = z.infer<typeof CreatedPostDataSchema>;
+
+export type UpdatePostData = z.infer<typeof UpdatePostDataSchema>;

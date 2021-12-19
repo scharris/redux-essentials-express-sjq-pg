@@ -3,11 +3,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { sortedEntities } from '../util/entities';
 import {
   CreatedPostData,
-  NewPostData,
-  NewReactionData,
+  CreatePostData,
+  CreateReactionData,
   Post,
   PostsWithContext,
-  UpdatedPostData,
+  UpdatePostData,
   User
 } from '../data-transfer';
 import { RootState } from './store';
@@ -52,15 +52,15 @@ export const api = createApi({
       query: postId => `/posts/${postId}`,
       providesTags: post => post ? [{ type: 'Post', id: post.id }] : [],
     }),
-    addNewPost: builder.mutation<CreatedPostData, NewPostData>({
+    addNewPost: builder.mutation<CreatedPostData, CreatePostData>({
       query: data => ({ url: '/posts', method: 'POST', body: data }),
       invalidatesTags: [{ type: 'Post', id: 'LIST' }],
     }),
-    updatePost: builder.mutation<void, { postId: EntityId, data: UpdatedPostData }>({
+    updatePost: builder.mutation<void, { postId: EntityId, data: UpdatePostData }>({
       query: ({ postId, data }) => ({ url: `/posts/${postId}`, method: 'PATCH', body: data }),
       invalidatesTags: (_res , _err, updPostData) => [{ type: 'Post', id: updPostData.postId }],
     }),
-    addPostReaction: builder.mutation<{ added: boolean }, { postId: EntityId, data: NewReactionData }>({
+    addPostReaction: builder.mutation<{ added: boolean }, { postId: EntityId, data: CreateReactionData }>({
       query: arg => ({
         url: `/posts/${arg.postId}/reaction`,
         method: 'PUT',
