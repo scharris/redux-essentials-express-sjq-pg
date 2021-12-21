@@ -16,7 +16,6 @@ type PostsData = EntityState<Post>;
 const postsEntityAdapter = createEntityAdapter<Post>({ sortComparer: comparePosts });
 function comparePosts(p1: Post, p2: Post) { return p2.date.localeCompare(p1.date); }
 const initialPostsData: PostsData = postsEntityAdapter.getInitialState();
-type InvalidatedPost = { type: 'Post', id: EntityId };
 
 type UsersData = EntityState<User> & CurrentUserState;
 type CurrentUserState = { currentUser: User | null };
@@ -40,12 +39,15 @@ export const api = createApi({
         const postsData = postsEntityAdapter.setAll(initialPostsData, baseData.posts);
         // We set the the current user to the first returned user: use proper authentication in a real app!
         const currentUser = baseData.users[0] ?? null;
-        const usersData = { ...usersEntityAdapter.setAll(initialUsersData, baseData.users), currentUser };
+        const usersData = {
+          ...usersEntityAdapter.setAll(initialUsersData, baseData.users),
+          currentUser
+        };
         return ({ postsData, usersData });
       },
       providesTags: res => {
-        const idTags = res ? res.postsData.ids.map(id => ({ type: 'Post', id })) : [];
-        return [{ type: 'Post', id: 'LIST' }, ...idTags] as InvalidatedPost[];
+        const idTags = res ? res.postsData.ids.map(id => ({ type: 'Post' as const, id })) : [];
+        return [{ type: 'Post' as const, id: 'LIST' }, ...idTags];
       }
     }),
     getPost: builder.query<Post, EntityId>({
@@ -53,11 +55,19 @@ export const api = createApi({
       providesTags: post => post ? [{ type: 'Post', id: post.id }] : [],
     }),
     addNewPost: builder.mutation<CreatedPostData, CreatePostData>({
-      query: data => ({ url: '/posts', method: 'POST', body: data }),
+      query: data => ({
+        url: '/posts',
+        method: 'POST',
+        body: data
+      }),
       invalidatesTags: [{ type: 'Post', id: 'LIST' }],
     }),
     updatePost: builder.mutation<void, { postId: EntityId, data: UpdatePostData }>({
-      query: ({ postId, data }) => ({ url: `/posts/${postId}`, method: 'PATCH', body: data }),
+      query: ({ postId, data }) => ({
+        url: `/posts/${postId}`,
+        method: 'PATCH',
+        body: data
+      }),
       invalidatesTags: (_res , _err, updPostData) => [{ type: 'Post', id: updPostData.postId }],
     }),
     addPostReaction: builder.mutation<{ added: boolean }, { postId: EntityId, data: CreateReactionData }>({
